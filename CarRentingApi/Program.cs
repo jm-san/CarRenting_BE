@@ -1,7 +1,8 @@
-using Application.Costumers.Dtos;
+using Application.Costumers.Commands.CreateCustomer;
+using Application.Costumers.Commands.DeleteCustomer;
+using Application.Costumers.Commands.UpdateCustomer;
 using Application.Costumers.MappingProfiles;
-using Application.Costumers.Services;
-using Application.Costumers.Validators;
+using Application.Costumers.Queries.GetCustomer;
 using Application.Rents.Dtos;
 using Application.Rents.MappingProfiles;
 using Application.Rents.Services;
@@ -32,8 +33,14 @@ public class Program
         builder.Services.AddAutoMapper(typeof(VehicleMappingProfile));
         builder.Services.AddAutoMapper(typeof(RentMappingProfile));
 
+        //Add MediatR (Customers feature uses CQRS)
+        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateCustomerCommand).Assembly));
+
         //Add Validators
-        builder.Services.AddScoped<IValidator<CustomerInDto>, CustomerInDtoValidator>();
+        builder.Services.AddScoped<IValidator<CreateCustomerCommand>, CreateCustomerCommandValidator>();
+        builder.Services.AddScoped<IValidator<UpdateCustomerCommand>, UpdateCustomerCommandValidator>();
+        builder.Services.AddScoped<IValidator<DeleteCustomerCommand>, DeleteCustomerCommandValidator>();
+        builder.Services.AddScoped<IValidator<GetCustomerQuery>, GetCustomerQueryValidator>();
         builder.Services.AddScoped<IValidator<RentInDto>, RentInDtoValidator>();
         builder.Services.AddScoped<IValidator<VehicleInDto>, VehicleInDtoValidator>();
 
@@ -43,7 +50,6 @@ public class Program
         builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
         builder.Services.AddScoped<VehicleService>();
         builder.Services.AddScoped<RentService>();
-        builder.Services.AddScoped<CustomerService>();
 
         //MongoDB configurations
         builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("MongoDB"));
