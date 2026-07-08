@@ -2,6 +2,7 @@ using Application.Common.Enums;
 using Application.Vehicles.Commands.UpdateVehicle;
 using Application.Vehicles.Dtos;
 using Domain.Entities;
+using Domain.Filters;
 using Infrastructure.Interfaces;
 using Moq;
 
@@ -9,12 +10,12 @@ namespace CarRenting_Tests.UnitTest;
 
 public class VehicleServiceTest
 {
-    private readonly Mock<IVehicleRepository> _mockVehicleRepository;
+    private readonly Mock<IRepository<Vehicle, VehicleFilter>> _mockVehicleRepository;
     private readonly UpdateVehicleCommandHandler _handler;
 
     public VehicleServiceTest()
     {
-        _mockVehicleRepository = new Mock<IVehicleRepository>();
+        _mockVehicleRepository = new Mock<IRepository<Vehicle, VehicleFilter>>();
         _handler = new UpdateVehicleCommandHandler(_mockVehicleRepository.Object);
     }
 

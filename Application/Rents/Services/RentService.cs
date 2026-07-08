@@ -11,12 +11,12 @@ namespace Application.Rents.Services;
 
 public class RentService
 {
-    private readonly IRentRepository _rentRepository;
+    private readonly IRepository<Rent, RentFilter> _rentRepository;
     private readonly IMapper _mapper;
     private readonly IValidator<RentInDto> _validator;
 
     public RentService(
-        IRentRepository rentRepository,
+        IRepository<Rent, RentFilter> rentRepository,
         IMapper mapper,
         IValidator<RentInDto> validator)
     {

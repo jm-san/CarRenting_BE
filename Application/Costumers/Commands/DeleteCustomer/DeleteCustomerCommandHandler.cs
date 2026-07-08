@@ -1,5 +1,7 @@
 using Application.Common.Enums;
 using Application.Common.Models;
+using Domain.Entities;
+using Domain.Filters;
 using Infrastructure.Interfaces;
 using MediatR;
 
@@ -7,9 +9,9 @@ namespace Application.Costumers.Commands.DeleteCustomer;
 
 public class DeleteCustomerCommandHandler : IRequestHandler<DeleteCustomerCommand, ApiResponse<string>>
 {
-    private readonly ICustomerRepository _customerRepository;
+    private readonly IRepository<Customer, CustomerFilter> _customerRepository;
 
-    public DeleteCustomerCommandHandler(ICustomerRepository customerRepository)
+    public DeleteCustomerCommandHandler(IRepository<Customer, CustomerFilter> customerRepository)
     {
         _customerRepository = customerRepository;
     }

@@ -1,5 +1,7 @@
 using Application.Common.Enums;
 using Application.Common.Models;
+using Domain.Entities;
+using Domain.Filters;
 using Infrastructure.Interfaces;
 using MediatR;
 
@@ -7,9 +9,9 @@ namespace Application.Vehicles.Commands.DeleteVehicle;
 
 public class DeleteVehicleCommandHandler : IRequestHandler<DeleteVehicleCommand, ApiResponse<string>>
 {
-    private readonly IVehicleRepository _vehicleRepository;
+    private readonly IRepository<Vehicle, VehicleFilter> _vehicleRepository;
 
-    public DeleteVehicleCommandHandler(IVehicleRepository vehicleRepository)
+    public DeleteVehicleCommandHandler(IRepository<Vehicle, VehicleFilter> vehicleRepository)
     {
         _vehicleRepository = vehicleRepository;
     }

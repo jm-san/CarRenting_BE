@@ -2,6 +2,7 @@ using Application.Common.Enums;
 using Application.Common.Models;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Filters;
 using Infrastructure.Interfaces;
 using MediatR;
 
@@ -9,11 +10,11 @@ namespace Application.Vehicles.Commands.CreateVehicle;
 
 public class CreateVehicleCommandHandler : IRequestHandler<CreateVehicleCommand, ApiResponse<string>>
 {
-    private readonly IVehicleRepository _vehicleRepository;
+    private readonly IRepository<Vehicle, VehicleFilter> _vehicleRepository;
     private readonly IMapper _mapper;
 
     public CreateVehicleCommandHandler(
-        IVehicleRepository vehicleRepository,
+        IRepository<Vehicle, VehicleFilter> vehicleRepository,
         IMapper mapper)
     {
         _vehicleRepository = vehicleRepository;

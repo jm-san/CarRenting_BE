@@ -12,6 +12,8 @@ using Application.Vehicles.Commands.CreateVehicle;
 using Application.Vehicles.Commands.DeleteVehicle;
 using Application.Vehicles.Commands.UpdateVehicle;
 using Application.Vehicles.MappingProfiles;
+using Domain.Entities;
+using Domain.Filters;
 using FluentValidation;
 using Infrastructure.Interfaces;
 using Infrastructure.Models;
@@ -51,15 +53,18 @@ public class Program
         builder.Services.AddScoped<IValidator<DeleteVehicleCommand>, DeleteVehicleCommandValidator>();
         builder.Services.AddScoped<IValidator<RentInDto>, RentInDtoValidator>();
 
-        // Register repositories and services
-        builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
-        builder.Services.AddScoped<IRentRepository, RentRepository>();
-        builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-        builder.Services.AddScoped<RentService>();
-
         //MongoDB configurations
         builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("MongoDB"));
         builder.Services.AddSingleton<MongoDBService>();
+
+        // Register repositories and services
+        builder.Services.AddScoped<IRepository<Vehicle, VehicleFilter>>(sp =>
+            new MongoRepository<Vehicle, VehicleFilter>(sp.GetRequiredService<MongoDBService>(), "Vehicles"));
+        builder.Services.AddScoped<IRepository<Customer, CustomerFilter>>(sp =>
+            new MongoRepository<Customer, CustomerFilter>(sp.GetRequiredService<MongoDBService>(), "Customers"));
+        builder.Services.AddScoped<IRepository<Rent, RentFilter>>(sp =>
+            new MongoRepository<Rent, RentFilter>(sp.GetRequiredService<MongoDBService>(), "Rents"));
+        builder.Services.AddScoped<RentService>();
 
         //No transform attributes to lowercase
         builder.Services.AddControllers()

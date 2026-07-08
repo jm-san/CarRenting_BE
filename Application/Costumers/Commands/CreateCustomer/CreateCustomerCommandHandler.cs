@@ -2,6 +2,7 @@ using Application.Common.Enums;
 using Application.Common.Models;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Filters;
 using Infrastructure.Interfaces;
 using MediatR;
 
@@ -9,11 +10,11 @@ namespace Application.Costumers.Commands.CreateCustomer;
 
 public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, ApiResponse<string>>
 {
-    private readonly ICustomerRepository _customerRepository;
+    private readonly IRepository<Customer, CustomerFilter> _customerRepository;
     private readonly IMapper _mapper;
 
     public CreateCustomerCommandHandler(
-        ICustomerRepository customerRepository,
+        IRepository<Customer, CustomerFilter> customerRepository,
         IMapper mapper)
     {
         _customerRepository = customerRepository;

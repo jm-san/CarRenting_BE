@@ -2,6 +2,8 @@ using Application.Common.Enums;
 using Application.Common.Models;
 using Application.Costumers.Dtos;
 using AutoMapper;
+using Domain.Entities;
+using Domain.Filters;
 using Infrastructure.Interfaces;
 using MediatR;
 
@@ -9,11 +11,11 @@ namespace Application.Costumers.Queries.GetCustomer;
 
 public class GetCustomerQueryHandler : IRequestHandler<GetCustomerQuery, ApiResponse<CustomerDto>>
 {
-    private readonly ICustomerRepository _customerRepository;
+    private readonly IRepository<Customer, CustomerFilter> _customerRepository;
     private readonly IMapper _mapper;
 
     public GetCustomerQueryHandler(
-        ICustomerRepository customerRepository,
+        IRepository<Customer, CustomerFilter> customerRepository,
         IMapper mapper)
     {
         _customerRepository = customerRepository;
