@@ -1,7 +1,6 @@
 using Application.Costumers.Commands.CreateCustomer;
 using Application.Costumers.Commands.DeleteCustomer;
 using Application.Costumers.Commands.UpdateCustomer;
-using Application.Costumers.Dtos;
 using Application.Costumers.MappingProfiles;
 using Application.Costumers.Queries.GetCustomer;
 using Application.Rents.Dtos;
@@ -34,7 +33,7 @@ public class Program
         builder.Services.AddAutoMapper(typeof(VehicleMappingProfile));
         builder.Services.AddAutoMapper(typeof(RentMappingProfile));
 
-        //Add MediatR (Customers feature uses CQRS)
+        //Add MediatR (Customers y Vehicles usan CQRS)
         builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateCustomerCommand).Assembly));
 
         //Add Validators
@@ -42,12 +41,9 @@ public class Program
         builder.Services.AddScoped<IValidator<UpdateCustomerCommand>, UpdateCustomerCommandValidator>();
         builder.Services.AddScoped<IValidator<DeleteCustomerCommand>, DeleteCustomerCommandValidator>();
         builder.Services.AddScoped<IValidator<GetCustomerQuery>, GetCustomerQueryValidator>();
-
-        //Add MediatR (Customers y Vehicles usan CQRS)
-        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateCustomerCommand).Assembly));
-
-        //Add Validators
-        builder.Services.AddScoped<IValidator<CustomerInDto>, CustomerInDtoValidator>();
+        builder.Services.AddScoped<IValidator<CreateVehicleCommand>, CreateVehicleCommandValidator>();
+        builder.Services.AddScoped<IValidator<UpdateVehicleCommand>, UpdateVehicleCommandValidator>();
+        builder.Services.AddScoped<IValidator<DeleteVehicleCommand>, DeleteVehicleCommandValidator>();
         builder.Services.AddScoped<IValidator<RentInDto>, RentInDtoValidator>();
 
         // Register repositories and services
