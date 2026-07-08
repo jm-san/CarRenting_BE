@@ -24,10 +24,11 @@ namespace Application.Common.Models
         {
             ApiResponseMessage = apiResponseCode.ToString();
             Data = data;
+            Message = message;
         }
 
-        public T Data { get; set; }
-        public string ApiResponseMessage { get; set; }
-        public string Message { get; set; }
+        public T? Data { get; set; }
+        public string? ApiResponseMessage { get; set; }
+        public string? Message { get; set; }
     }
 }

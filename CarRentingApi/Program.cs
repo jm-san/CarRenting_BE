@@ -26,8 +26,6 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add controllers to the container.
-        builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
@@ -67,7 +65,7 @@ public class Program
         builder.Services.AddScoped<IRepository<Rent, RentFilter>>(sp =>
             new MongoRepository<Rent, RentFilter>(sp.GetRequiredService<MongoDBService>(), "Rents"));
 
-        //No transform attributes to lowercase
+        // Add controllers to the container. No transform attributes to lowercase.
         builder.Services.AddControllers()
             .AddJsonOptions(options =>
             {
@@ -90,8 +88,6 @@ public class Program
             .AllowAnyHeader());
 
         app.UseHttpsRedirection();
-
-        app.UseAuthorization();
 
         app.MapControllers();
 
