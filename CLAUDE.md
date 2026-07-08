@@ -1,6 +1,6 @@
 # CarRenting_BE
 
-Backend del proyecto de alquiler de coches. API REST en ASP.NET Core 8 con MongoDB como persistencia. Repo Git independiente (ejecuta comandos `dotnet`/`git` desde esta carpeta).
+Backend del proyecto de alquiler de coches. API REST en ASP.NET Core 10 con MongoDB como persistencia. Repo Git independiente (ejecuta comandos `dotnet`/`git` desde esta carpeta).
 
 ## Arquitectura
 
@@ -50,4 +50,4 @@ API en desarrollo: `https://localhost:7127` o `http://localhost:5075` (Swagger U
 
 ## Stack
 
-.NET 8, ASP.NET Core Web API, MongoDB.Driver 3.2 (sin ORM/EF Core), AutoMapper 14, FluentValidation 11, Swashbuckle (Swagger), xUnit + Moq + Mvc.Testing para tests.
+.NET 10, ASP.NET Core Web API, MongoDB.Driver 3.2 (sin ORM/EF Core), AutoMapper 14, FluentValidation 11, Swashbuckle (Swagger), xUnit + Moq + Mvc.Testing para tests.
