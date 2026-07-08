@@ -1,0 +1,5 @@
+{
+  "permissions": {
+    "additionalDirectories": ["../CarRenting_FE"]
+  }
+}
