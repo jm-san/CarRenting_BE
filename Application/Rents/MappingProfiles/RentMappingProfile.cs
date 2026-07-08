@@ -9,6 +9,6 @@ public class RentMappingProfile : Profile
     public RentMappingProfile()
     {
         CreateMap<Rent, RentDto>().ReverseMap();
-        CreateMap<RentInDto, Rent>();
+        CreateMap<CreateRentDto, Rent>();
     }
 }

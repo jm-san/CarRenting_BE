@@ -1,0 +1,49 @@
+using Application.Common.Enums;
+using Application.Common.Models;
+using AutoMapper;
+using Domain.Entities;
+using Domain.Filters;
+using Infrastructure.Interfaces;
+using MediatR;
+
+namespace Application.Rents.Commands.CreateRent;
+
+public class CreateRentCommandHandler : IRequestHandler<CreateRentCommand, ApiResponse<string>>
+{
+    private readonly IRepository<Rent, RentFilter> _rentRepository;
+    private readonly IMapper _mapper;
+
+    public CreateRentCommandHandler(IRepository<Rent, RentFilter> rentRepository, IMapper mapper)
+    {
+        _rentRepository = rentRepository;
+        _mapper = mapper;
+    }
+
+    public async Task<ApiResponse<string>> Handle(CreateRentCommand request, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var rent = _mapper.Map<Rent>(request.Rent);
+            rent.IsActive = true;
+
+            //Búsqueda de si el cliente tiene alquileres activos
+            var activeRents = await _rentRepository.GetAllAsync(new RentFilter
+            {
+                CustomerId = rent.CustomerId,
+                IsActive = true
+            });
+
+            if (activeRents.Count > 0)
+            {
+                return new ApiResponse<string>(ETypeApiResponse.CUSTOMER_WITH_ACTIVE_RENT, "El cliente ya tiene un alquiler activo");
+            }
+
+            await _rentRepository.InsertAsync(rent);
+            return new ApiResponse<string>(ETypeApiResponse.OK, rent.Id);
+        }
+        catch (Exception ex)
+        {
+            return new ApiResponse<string>(ETypeApiResponse.INTERNAL_ERROR, ex.Message);
+        }
+    }
+}

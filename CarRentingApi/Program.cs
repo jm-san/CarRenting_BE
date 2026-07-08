@@ -4,10 +4,10 @@ using Application.Costumers.Commands.DeleteCustomer;
 using Application.Costumers.Commands.UpdateCustomer;
 using Application.Costumers.MappingProfiles;
 using Application.Costumers.Queries.GetCustomer;
-using Application.Rents.Dtos;
+using Application.Rents.Commands.CreateRent;
+using Application.Rents.Commands.DeleteRent;
+using Application.Rents.Commands.UpdateRentActivity;
 using Application.Rents.MappingProfiles;
-using Application.Rents.Services;
-using Application.Rents.Validators;
 using Application.Vehicles.Commands.CreateVehicle;
 using Application.Vehicles.Commands.DeleteVehicle;
 using Application.Vehicles.Commands.UpdateVehicle;
@@ -36,7 +36,7 @@ public class Program
         builder.Services.AddAutoMapper(typeof(VehicleMappingProfile));
         builder.Services.AddAutoMapper(typeof(RentMappingProfile));
 
-        //Add MediatR (Customers y Vehicles usan CQRS)
+        //Add MediatR
         builder.Services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssembly(typeof(CreateCustomerCommand).Assembly);
@@ -51,7 +51,9 @@ public class Program
         builder.Services.AddScoped<IValidator<CreateVehicleCommand>, CreateVehicleCommandValidator>();
         builder.Services.AddScoped<IValidator<UpdateVehicleCommand>, UpdateVehicleCommandValidator>();
         builder.Services.AddScoped<IValidator<DeleteVehicleCommand>, DeleteVehicleCommandValidator>();
-        builder.Services.AddScoped<IValidator<RentInDto>, RentInDtoValidator>();
+        builder.Services.AddScoped<IValidator<CreateRentCommand>, CreateRentCommandValidator>();
+        builder.Services.AddScoped<IValidator<UpdateRentActivityCommand>, UpdateRentActivityCommandValidator>();
+        builder.Services.AddScoped<IValidator<DeleteRentCommand>, DeleteRentCommandValidator>();
 
         //MongoDB configurations
         builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("MongoDB"));
@@ -64,7 +66,6 @@ public class Program
             new MongoRepository<Customer, CustomerFilter>(sp.GetRequiredService<MongoDBService>(), "Customers"));
         builder.Services.AddScoped<IRepository<Rent, RentFilter>>(sp =>
             new MongoRepository<Rent, RentFilter>(sp.GetRequiredService<MongoDBService>(), "Rents"));
-        builder.Services.AddScoped<RentService>();
 
         //No transform attributes to lowercase
         builder.Services.AddControllers()
