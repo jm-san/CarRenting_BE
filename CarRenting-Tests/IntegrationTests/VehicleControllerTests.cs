@@ -19,7 +19,7 @@ public class VehicleControllerTests : IClassFixture<WebApplicationFactory<Progra
     public async Task UpdateVehicleNotFoundVehicleDoesNotExist()
     {
         var request = new HttpRequestMessage(HttpMethod.Put, "/api/Vehicles/999");
-        request.Content = new StringContent(JsonConvert.SerializeObject(new VehicleInDto
+        request.Content = new StringContent(JsonConvert.SerializeObject(new UpdateVehicleDto
         {
             Brand = "Nissan"
         }), Encoding.UTF8, "application/json");

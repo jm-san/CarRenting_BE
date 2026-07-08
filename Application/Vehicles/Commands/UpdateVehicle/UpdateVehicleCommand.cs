@@ -4,4 +4,4 @@ using MediatR;
 
 namespace Application.Vehicles.Commands.UpdateVehicle;
 
-public record UpdateVehicleCommand(string Id, VehicleInDto Vehicle) : IRequest<ApiResponse<string>>;
+public record UpdateVehicleCommand(string Id, UpdateVehicleDto Vehicle) : IRequest<ApiResponse<string>>;

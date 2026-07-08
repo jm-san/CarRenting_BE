@@ -4,4 +4,4 @@ using MediatR;
 
 namespace Application.Costumers.Commands.CreateCustomer;
 
-public record CreateCustomerCommand(CustomerInDto Customer) : IRequest<ApiResponse<string>>;
+public record CreateCustomerCommand(CreateCustomerDto Customer) : IRequest<ApiResponse<string>>;

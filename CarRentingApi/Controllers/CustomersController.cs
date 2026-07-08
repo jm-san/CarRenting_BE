@@ -34,12 +34,12 @@ public class CustomersController : ControllerBase
 
     // POST: api/Customers/CreateCustomer
     [HttpPost]
-    public async Task<ApiResponse<string>> CreateCustomer([FromBody] CustomerInDto customerDto) =>
+    public async Task<ApiResponse<string>> CreateCustomer([FromBody] CreateCustomerDto customerDto) =>
         await _mediator.Send(new CreateCustomerCommand(customerDto));
 
     // PUT: api/Customers/UpdateCustomer/{id}
     [HttpPut("{id}")]
-    public async Task<ApiResponse<string>> UpdateCustomer(string id, [FromBody] CustomerInDto customerDto) =>
+    public async Task<ApiResponse<string>> UpdateCustomer(string id, [FromBody] UpdateCustomerDto customerDto) =>
         await _mediator.Send(new UpdateCustomerCommand(id, customerDto));
 
     // DELETE: api/Customers/DeleteCustomer/{id}

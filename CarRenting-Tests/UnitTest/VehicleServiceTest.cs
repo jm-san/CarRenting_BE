@@ -25,7 +25,7 @@ public class VehicleServiceTest
         _mockVehicleRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<string>()))
             .ReturnsAsync((Vehicle)null);
 
-        var result = await _handler.Handle(new UpdateVehicleCommand("123", new VehicleInDto()), CancellationToken.None);
+        var result = await _handler.Handle(new UpdateVehicleCommand("123", new UpdateVehicleDto()), CancellationToken.None);
 
         Assert.Equal(ETypeApiResponse.ENTITY_NOT_FOUND.ToString(), result.ApiResponseMessage);
     }
@@ -34,7 +34,7 @@ public class VehicleServiceTest
     public async Task UpdateVehicleWhenValidInput()
     {
         var existingVehicle = new Vehicle { Id = "123", Brand = "Toyota", Model = "Corolla" };
-        var vehicleDto = new VehicleInDto { Brand = "Honda" };
+        var vehicleDto = new UpdateVehicleDto { Brand = "Honda" };
 
         _mockVehicleRepository.Setup(repo => repo.GetByIdAsync("123")).ReturnsAsync(existingVehicle);
         _mockVehicleRepository.Setup(repo => repo.UpdateAsync("123", It.IsAny<Vehicle>())).Returns(Task.CompletedTask);

@@ -4,4 +4,4 @@ using MediatR;
 
 namespace Application.Vehicles.Commands.CreateVehicle;
 
-public record CreateVehicleCommand(VehicleInDto Vehicle) : IRequest<ApiResponse<string>>;
+public record CreateVehicleCommand(CreateVehicleDto Vehicle) : IRequest<ApiResponse<string>>;

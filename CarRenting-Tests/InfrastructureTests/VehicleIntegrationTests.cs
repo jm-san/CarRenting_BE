@@ -30,7 +30,7 @@ public class VehicleIntegrationTests : IClassFixture<WebApplicationFactory<Progr
         await _vehicleCollection.InsertOneAsync(vehicle);
 
         var request = new HttpRequestMessage(HttpMethod.Put, "/api/vehicles/123");
-        request.Content = new StringContent(JsonConvert.SerializeObject(new VehicleInDto
+        request.Content = new StringContent(JsonConvert.SerializeObject(new UpdateVehicleDto
         {
             Brand = "Chevrolet"
         }), Encoding.UTF8, "application/json");

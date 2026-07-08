@@ -9,6 +9,6 @@ public class VehicleMappingProfile : Profile
     public VehicleMappingProfile()
     {
         CreateMap<Vehicle, VehicleDto>().ReverseMap();
-        CreateMap<VehicleInDto, Vehicle>();
+        CreateMap<CreateVehicleDto, Vehicle>();
     }
 }

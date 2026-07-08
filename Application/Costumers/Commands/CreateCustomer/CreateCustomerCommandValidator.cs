@@ -23,13 +23,7 @@ public class CreateCustomerCommandValidator : AbstractValidator<CreateCustomerCo
             .Matches(@"^[67]\d{8}$").WithMessage("Formato de teléfono no es válido");
 
         RuleFor(x => x.Customer.Birthdate)
-            .Must(IsValidDate).When(x => x.Customer.Birthdate.HasValue).WithMessage("Fecha de nacimiento no válida")
             .LessThanOrEqualTo(DateTime.UtcNow).WithMessage("La fecha de nacimiento no puede ser una fecha futura")
             .LessThanOrEqualTo(DateTime.UtcNow.AddYears(-18)).WithMessage("El cliente debe de ser mayor de edad");
-    }
-
-    private bool IsValidDate(DateTime? date)
-    {
-        return date.HasValue && date.Value != DateTime.MinValue;
     }
 }
