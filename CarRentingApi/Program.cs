@@ -1,7 +1,9 @@
+using Application.Costumers.Commands.CreateCustomer;
+using Application.Costumers.Commands.DeleteCustomer;
+using Application.Costumers.Commands.UpdateCustomer;
 using Application.Costumers.Dtos;
 using Application.Costumers.MappingProfiles;
-using Application.Costumers.Services;
-using Application.Costumers.Validators;
+using Application.Costumers.Queries.GetCustomer;
 using Application.Rents.Dtos;
 using Application.Rents.MappingProfiles;
 using Application.Rents.Services;
@@ -32,11 +34,7 @@ public class Program
         builder.Services.AddAutoMapper(typeof(VehicleMappingProfile));
         builder.Services.AddAutoMapper(typeof(RentMappingProfile));
 
-<<<<<<< Updated upstream
-        //Add Validators
-        builder.Services.AddScoped<IValidator<CustomerInDto>, CustomerInDtoValidator>();
-=======
-        //Add MediatR (Customers y Vehicles usan CQRS)
+        //Add MediatR (Customers feature uses CQRS)
         builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateCustomerCommand).Assembly));
 
         //Add Validators
@@ -44,10 +42,12 @@ public class Program
         builder.Services.AddScoped<IValidator<UpdateCustomerCommand>, UpdateCustomerCommandValidator>();
         builder.Services.AddScoped<IValidator<DeleteCustomerCommand>, DeleteCustomerCommandValidator>();
         builder.Services.AddScoped<IValidator<GetCustomerQuery>, GetCustomerQueryValidator>();
-        builder.Services.AddScoped<IValidator<CreateVehicleCommand>, CreateVehicleCommandValidator>();
-        builder.Services.AddScoped<IValidator<UpdateVehicleCommand>, UpdateVehicleCommandValidator>();
-        builder.Services.AddScoped<IValidator<DeleteVehicleCommand>, DeleteVehicleCommandValidator>();
->>>>>>> Stashed changes
+
+        //Add MediatR (Customers y Vehicles usan CQRS)
+        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateCustomerCommand).Assembly));
+
+        //Add Validators
+        builder.Services.AddScoped<IValidator<CustomerInDto>, CustomerInDtoValidator>();
         builder.Services.AddScoped<IValidator<RentInDto>, RentInDtoValidator>();
 
         // Register repositories and services
@@ -55,7 +55,6 @@ public class Program
         builder.Services.AddScoped<IRentRepository, RentRepository>();
         builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
         builder.Services.AddScoped<RentService>();
-        builder.Services.AddScoped<CustomerService>();
 
         //MongoDB configurations
         builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("MongoDB"));
