@@ -1,3 +1,4 @@
+using Application.Common.Behaviors;
 using Application.Costumers.Commands.CreateCustomer;
 using Application.Costumers.Commands.DeleteCustomer;
 using Application.Costumers.Commands.UpdateCustomer;
@@ -34,7 +35,11 @@ public class Program
         builder.Services.AddAutoMapper(typeof(RentMappingProfile));
 
         //Add MediatR (Customers y Vehicles usan CQRS)
-        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateCustomerCommand).Assembly));
+        builder.Services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssembly(typeof(CreateCustomerCommand).Assembly);
+            cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
+        });
 
         //Add Validators
         builder.Services.AddScoped<IValidator<CreateCustomerCommand>, CreateCustomerCommandValidator>();

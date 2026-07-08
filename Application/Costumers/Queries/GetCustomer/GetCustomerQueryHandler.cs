@@ -2,7 +2,6 @@ using Application.Common.Enums;
 using Application.Common.Models;
 using Application.Costumers.Dtos;
 using AutoMapper;
-using FluentValidation;
 using Infrastructure.Interfaces;
 using MediatR;
 
@@ -12,28 +11,19 @@ public class GetCustomerQueryHandler : IRequestHandler<GetCustomerQuery, ApiResp
 {
     private readonly ICustomerRepository _customerRepository;
     private readonly IMapper _mapper;
-    private readonly IValidator<GetCustomerQuery> _validator;
 
     public GetCustomerQueryHandler(
         ICustomerRepository customerRepository,
-        IMapper mapper,
-        IValidator<GetCustomerQuery> validator)
+        IMapper mapper)
     {
         _customerRepository = customerRepository;
         _mapper = mapper;
-        _validator = validator;
     }
 
     public async Task<ApiResponse<CustomerDto>> Handle(GetCustomerQuery request, CancellationToken cancellationToken)
     {
         try
         {
-            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                return new ApiResponse<CustomerDto>(ETypeApiResponse.VALIDATION_ERROR, validationResult.ToString());
-            }
-
             var customer = await _customerRepository.GetByIdAsync(request.Id);
             if (customer == null)
             {

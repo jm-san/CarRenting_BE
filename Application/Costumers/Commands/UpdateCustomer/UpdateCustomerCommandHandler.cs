@@ -1,6 +1,5 @@
 using Application.Common.Enums;
 using Application.Common.Models;
-using FluentValidation;
 using Infrastructure.Interfaces;
 using MediatR;
 
@@ -9,26 +8,16 @@ namespace Application.Costumers.Commands.UpdateCustomer;
 public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, ApiResponse<string>>
 {
     private readonly ICustomerRepository _customerRepository;
-    private readonly IValidator<UpdateCustomerCommand> _validator;
 
-    public UpdateCustomerCommandHandler(
-        ICustomerRepository customerRepository,
-        IValidator<UpdateCustomerCommand> validator)
+    public UpdateCustomerCommandHandler(ICustomerRepository customerRepository)
     {
         _customerRepository = customerRepository;
-        _validator = validator;
     }
 
     public async Task<ApiResponse<string>> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
     {
         try
         {
-            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                return new ApiResponse<string>(ETypeApiResponse.VALIDATION_ERROR, validationResult.ToString());
-            }
-
             var customer = await _customerRepository.GetByIdAsync(request.Id);
             if (customer == null)
             {
