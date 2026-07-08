@@ -2,8 +2,12 @@
 
 namespace Application.Common.Models
 {
-    public class ApiResponse<T>
+    public class ApiResponse<T> : IApiResponse
     {
+        public ApiResponse()
+        {
+        }
+
         public ApiResponse(ETypeApiResponse apiResponseCode, string message)
         {
             ApiResponseMessage = apiResponseCode.ToString();

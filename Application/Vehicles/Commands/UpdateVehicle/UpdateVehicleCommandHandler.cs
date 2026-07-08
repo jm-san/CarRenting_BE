@@ -1,6 +1,5 @@
 using Application.Common.Enums;
 using Application.Common.Models;
-using FluentValidation;
 using Infrastructure.Interfaces;
 using MediatR;
 
@@ -9,26 +8,16 @@ namespace Application.Vehicles.Commands.UpdateVehicle;
 public class UpdateVehicleCommandHandler : IRequestHandler<UpdateVehicleCommand, ApiResponse<string>>
 {
     private readonly IVehicleRepository _vehicleRepository;
-    private readonly IValidator<UpdateVehicleCommand> _validator;
 
-    public UpdateVehicleCommandHandler(
-        IVehicleRepository vehicleRepository,
-        IValidator<UpdateVehicleCommand> validator)
+    public UpdateVehicleCommandHandler(IVehicleRepository vehicleRepository)
     {
         _vehicleRepository = vehicleRepository;
-        _validator = validator;
     }
 
     public async Task<ApiResponse<string>> Handle(UpdateVehicleCommand request, CancellationToken cancellationToken)
     {
         try
         {
-            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                return new ApiResponse<string>(ETypeApiResponse.VALIDATION_ERROR, validationResult.ToString());
-            }
-
             var vehicle = await _vehicleRepository.GetByIdAsync(request.Id);
             if (vehicle == null)
             {
