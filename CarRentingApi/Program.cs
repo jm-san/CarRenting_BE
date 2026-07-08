@@ -6,10 +6,10 @@ using Application.Rents.Dtos;
 using Application.Rents.MappingProfiles;
 using Application.Rents.Services;
 using Application.Rents.Validators;
-using Application.Vehicles.Dtos;
+using Application.Vehicles.Commands.CreateVehicle;
+using Application.Vehicles.Commands.DeleteVehicle;
+using Application.Vehicles.Commands.UpdateVehicle;
 using Application.Vehicles.MappingProfiles;
-using Application.Vehicles.Services;
-using Application.Vehicles.Validators;
 using FluentValidation;
 using Infrastructure.Interfaces;
 using Infrastructure.Models;
@@ -32,16 +32,28 @@ public class Program
         builder.Services.AddAutoMapper(typeof(VehicleMappingProfile));
         builder.Services.AddAutoMapper(typeof(RentMappingProfile));
 
+<<<<<<< Updated upstream
         //Add Validators
         builder.Services.AddScoped<IValidator<CustomerInDto>, CustomerInDtoValidator>();
+=======
+        //Add MediatR (Customers y Vehicles usan CQRS)
+        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateCustomerCommand).Assembly));
+
+        //Add Validators
+        builder.Services.AddScoped<IValidator<CreateCustomerCommand>, CreateCustomerCommandValidator>();
+        builder.Services.AddScoped<IValidator<UpdateCustomerCommand>, UpdateCustomerCommandValidator>();
+        builder.Services.AddScoped<IValidator<DeleteCustomerCommand>, DeleteCustomerCommandValidator>();
+        builder.Services.AddScoped<IValidator<GetCustomerQuery>, GetCustomerQueryValidator>();
+        builder.Services.AddScoped<IValidator<CreateVehicleCommand>, CreateVehicleCommandValidator>();
+        builder.Services.AddScoped<IValidator<UpdateVehicleCommand>, UpdateVehicleCommandValidator>();
+        builder.Services.AddScoped<IValidator<DeleteVehicleCommand>, DeleteVehicleCommandValidator>();
+>>>>>>> Stashed changes
         builder.Services.AddScoped<IValidator<RentInDto>, RentInDtoValidator>();
-        builder.Services.AddScoped<IValidator<VehicleInDto>, VehicleInDtoValidator>();
 
         // Register repositories and services
         builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
         builder.Services.AddScoped<IRentRepository, RentRepository>();
         builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-        builder.Services.AddScoped<VehicleService>();
         builder.Services.AddScoped<RentService>();
         builder.Services.AddScoped<CustomerService>();
 
