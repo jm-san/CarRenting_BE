@@ -27,7 +27,7 @@ Los repositorios (interfaces `I*Repository`) viven en **Infrastructure**, no en 
 ## Puntos a tener en cuenta (inconsistencias conocidas)
 
 - **Nombre de base de datos duplicado**: `Infrastructure/Services/MongoDBService.cs` hardcodea `"CarRentingDb"` en el constructor, ignorando el valor `MongoDB:DatabaseName` = `"RentingDB"` configurado en `appsettings.json`. Si tocas la conexión a Mongo, revisa cuál de los dos nombres es el real antes de asumir el de configuración.
-- **Dos Dockerfiles distintos**: `CarRenting_BE/Dockerfile` (raíz, target `net8.0`, probablemente el usado en CI/despliegue) y `CarRentingApi/Dockerfile` (generado por Visual Studio, target `net6.0` desactualizado, usado solo por el perfil de depuración "Container (Dockerfile)"). No los confundas.
+- **Dos Dockerfiles distintos**: `CarRenting_BE/Dockerfile` (raíz, probablemente el usado en CI/despliegue) y `CarRentingApi/Dockerfile` (generado por Visual Studio, usado solo por el perfil de depuración "Container (Dockerfile)"). Ambos en `net10.0` tras el retarget del proyecto; no los confundas entre sí.
 - **Sin autenticación/autorización**: no hay `AddAuthentication`/JWT/Identity configurados. `UseAuthorization()` se llama pero no tiene efecto real — todos los endpoints están abiertos.
 - **CORS totalmente abierto**: `AllowAnyOrigin/AllowAnyMethod/AllowAnyHeader`.
 - **Credenciales en claro**: `appsettings.json` trae `mongodb://admin:admin@localhost:27017` committeado. El proyecto ya tiene `UserSecretsId` configurado — usa user-secrets o variables de entorno en vez de tocar ese fichero para credenciales reales.

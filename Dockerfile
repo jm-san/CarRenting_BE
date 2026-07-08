@@ -1,11 +1,11 @@
-# Usar la imagen base de .NET 8.0
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+# Usar la imagen base de .NET 10.0
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 WORKDIR /app
 EXPOSE 5075
 EXPOSE 5001
 
 # Usar la imagen de SDK para compilar la aplicación
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
 # Copiar el archivo .csproj desde la subcarpeta CarRentingApi
