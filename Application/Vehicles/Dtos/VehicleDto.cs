@@ -2,7 +2,7 @@
 
 public class VehicleDto
 {
-    public string Id { get; set; }
+    public int Id { get; set; }
     public string Brand { get; set; }
     public string Model { get; set; }
     public string NumberPlate { get; set; }

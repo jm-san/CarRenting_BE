@@ -4,4 +4,4 @@ using MediatR;
 
 namespace Application.Rents.Queries.GetRent;
 
-public record GetRentQuery(string Id) : IRequest<ApiResponse<RentDto>>;
+public record GetRentQuery(int Id) : IRequest<ApiResponse<RentDto>>;

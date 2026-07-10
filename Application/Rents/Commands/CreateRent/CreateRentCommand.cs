@@ -4,4 +4,4 @@ using MediatR;
 
 namespace Application.Rents.Commands.CreateRent;
 
-public record CreateRentCommand(CreateRentDto Rent) : IRequest<ApiResponse<string>>;
+public record CreateRentCommand(CreateRentDto Rent) : IRequest<ApiResponse<int>>;

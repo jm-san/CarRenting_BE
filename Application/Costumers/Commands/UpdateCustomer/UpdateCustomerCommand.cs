@@ -4,4 +4,4 @@ using MediatR;
 
 namespace Application.Costumers.Commands.UpdateCustomer;
 
-public record UpdateCustomerCommand(string Id, UpdateCustomerDto Customer) : IRequest<ApiResponse<string>>;
+public record UpdateCustomerCommand(int Id, UpdateCustomerDto Customer) : IRequest<ApiResponse<int>>;

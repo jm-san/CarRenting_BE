@@ -7,10 +7,10 @@ public class CreateRentCommandValidator : AbstractValidator<CreateRentCommand>
     public CreateRentCommandValidator()
     {
         RuleFor(x => x.Rent.CustomerId)
-            .NotEmpty().WithMessage("Obligatorio indicar un cliente");
+            .GreaterThan(0).WithMessage("Obligatorio indicar un cliente");
 
         RuleFor(x => x.Rent.VehicleId)
-            .NotEmpty().WithMessage("Obligatorio indicar un vehículo");
+            .GreaterThan(0).WithMessage("Obligatorio indicar un vehículo");
 
         RuleFor(x => x.Rent.RentStartDate)
             .NotNull().WithMessage("Fecha de inicio del alquiler no válida")

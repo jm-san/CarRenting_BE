@@ -4,7 +4,7 @@ This backend service is designed for a car rental company, structured around Hex
 
 - Domain, Application, and Infrastructure layers clearly separated.
 - Unit and functional tests covering business logic and service behavior.
-- Infrastructure implementations with MongoDb.
+- Infrastructure implementations with PostgreSQL and EF Core.
 
 The system is ready for production use, supporting future scalability and integration with external services.
 
@@ -12,7 +12,7 @@ The system is ready for production use, supporting future scalability and integr
 
 ### Prerequisites
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
-- [MongoDB](https://www.mongodb.com/try/download/community)
+- [Docker](https://www.docker.com/) (to run PostgreSQL via `docker compose up -d`)
 - Git
 
 ### Steps to run locally
@@ -28,9 +28,9 @@ The system is ready for production use, supporting future scalability and integr
   dotnet restore
   ```
   
-  3. Update the appsettings.json with your local MongoDB connection string.
+  3. Start PostgreSQL: `docker compose up -d` (or update `appsettings.json`'s `ConnectionStrings:Default` to point at your own instance).
   
-  4. Run database migrations or seed data if necessary.
+  4. Database migrations are applied automatically on startup in Development.
   
   5. Start the API:
   ```bash

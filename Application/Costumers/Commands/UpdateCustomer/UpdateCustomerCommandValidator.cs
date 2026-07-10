@@ -7,7 +7,7 @@ public class UpdateCustomerCommandValidator : AbstractValidator<UpdateCustomerCo
     public UpdateCustomerCommandValidator()
     {
         RuleFor(x => x.Id)
-            .NotEmpty().WithMessage("Obligatorio indicar el Id del cliente");
+            .GreaterThan(0).WithMessage("Obligatorio indicar el Id del cliente");
 
         RuleFor(x => x.Customer.Name)
             .MaximumLength(100)

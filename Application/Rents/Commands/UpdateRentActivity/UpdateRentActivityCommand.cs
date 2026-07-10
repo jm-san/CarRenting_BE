@@ -3,4 +3,4 @@ using MediatR;
 
 namespace Application.Rents.Commands.UpdateRentActivity;
 
-public record UpdateRentActivityCommand(string Id, bool IsActive) : IRequest<ApiResponse<string>>;
+public record UpdateRentActivityCommand(int Id, bool IsActive) : IRequest<ApiResponse<int>>;

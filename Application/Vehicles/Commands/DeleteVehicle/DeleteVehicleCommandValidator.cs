@@ -7,6 +7,6 @@ public class DeleteVehicleCommandValidator : AbstractValidator<DeleteVehicleComm
     public DeleteVehicleCommandValidator()
     {
         RuleFor(x => x.Id)
-            .NotEmpty().WithMessage("Obligatorio indicar el Id del vehículo");
+            .GreaterThan(0).WithMessage("Obligatorio indicar el Id del vehículo");
     }
 }

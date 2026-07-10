@@ -7,7 +7,7 @@ public class UpdateVehicleCommandValidator : AbstractValidator<UpdateVehicleComm
     public UpdateVehicleCommandValidator()
     {
         RuleFor(x => x.Id)
-            .NotEmpty().WithMessage("Obligatorio indicar el Id del vehículo");
+            .GreaterThan(0).WithMessage("Obligatorio indicar el Id del vehículo");
 
         RuleFor(x => x.Vehicle.Brand)
             .MaximumLength(100)

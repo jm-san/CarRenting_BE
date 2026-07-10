@@ -12,13 +12,11 @@ using Application.Vehicles.Commands.CreateVehicle;
 using Application.Vehicles.Commands.DeleteVehicle;
 using Application.Vehicles.Commands.UpdateVehicle;
 using Application.Vehicles.MappingProfiles;
-using Domain.Entities;
-using Domain.Filters;
 using FluentValidation;
 using Infrastructure.Interfaces;
-using Infrastructure.Models;
+using Infrastructure.Persistence;
 using Infrastructure.Repositories;
-using Infrastructure.Services;
+using Microsoft.EntityFrameworkCore;
 
 public class Program
 {
@@ -53,17 +51,14 @@ public class Program
         builder.Services.AddScoped<IValidator<UpdateRentActivityCommand>, UpdateRentActivityCommandValidator>();
         builder.Services.AddScoped<IValidator<DeleteRentCommand>, DeleteRentCommandValidator>();
 
-        //MongoDB configurations
-        builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("MongoDB"));
-        builder.Services.AddSingleton<MongoDBService>();
+        //PostgreSQL / EF Core configuration
+        builder.Services.AddDbContext<CarRentingDbContext>(options =>
+            options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
 
         // Register repositories and services
-        builder.Services.AddScoped<IRepository<Vehicle, VehicleFilter>>(sp =>
-            new MongoRepository<Vehicle, VehicleFilter>(sp.GetRequiredService<MongoDBService>(), "Vehicles"));
-        builder.Services.AddScoped<IRepository<Customer, CustomerFilter>>(sp =>
-            new MongoRepository<Customer, CustomerFilter>(sp.GetRequiredService<MongoDBService>(), "Customers"));
-        builder.Services.AddScoped<IRepository<Rent, RentFilter>>(sp =>
-            new MongoRepository<Rent, RentFilter>(sp.GetRequiredService<MongoDBService>(), "Rents"));
+        builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+        builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
+        builder.Services.AddScoped<IRentRepository, RentRepository>();
 
         // Add controllers to the container. No transform attributes to lowercase.
         builder.Services.AddControllers()
@@ -79,6 +74,9 @@ public class Program
         {
             app.UseSwagger();
             app.UseSwaggerUI();
+
+            using var scope = app.Services.CreateScope();
+            scope.ServiceProvider.GetRequiredService<CarRentingDbContext>().Database.Migrate();
         }
 
         //Allow CORS policy

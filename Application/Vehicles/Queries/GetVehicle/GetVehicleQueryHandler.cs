@@ -2,8 +2,6 @@ using Application.Common.Enums;
 using Application.Common.Models;
 using Application.Vehicles.Dtos;
 using AutoMapper;
-using Domain.Entities;
-using Domain.Filters;
 using Infrastructure.Interfaces;
 using MediatR;
 
@@ -11,10 +9,10 @@ namespace Application.Vehicles.Queries.GetVehicle;
 
 public class GetVehicleQueryHandler : IRequestHandler<GetVehicleQuery, ApiResponse<VehicleDto>>
 {
-    private readonly IRepository<Vehicle, VehicleFilter> _vehicleRepository;
+    private readonly IVehicleRepository _vehicleRepository;
     private readonly IMapper _mapper;
 
-    public GetVehicleQueryHandler(IRepository<Vehicle, VehicleFilter> vehicleRepository, IMapper mapper)
+    public GetVehicleQueryHandler(IVehicleRepository vehicleRepository, IMapper mapper)
     {
         _vehicleRepository = vehicleRepository;
         _mapper = mapper;

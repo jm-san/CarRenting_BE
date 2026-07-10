@@ -29,22 +29,22 @@ public class CustomersController : ControllerBase
 
     // GET: api/Customers/GetCustomer/{id}
     [HttpGet("{id}")]
-    public async Task<ApiResponse<CustomerDto>> GetCustomer(string id) =>
+    public async Task<ApiResponse<CustomerDto>> GetCustomer(int id) =>
         await _mediator.Send(new GetCustomerQuery(id));
 
     // POST: api/Customers/CreateCustomer
     [HttpPost]
-    public async Task<ApiResponse<string>> CreateCustomer([FromBody] CreateCustomerDto customerDto) =>
+    public async Task<ApiResponse<int>> CreateCustomer([FromBody] CreateCustomerDto customerDto) =>
         await _mediator.Send(new CreateCustomerCommand(customerDto));
 
     // PUT: api/Customers/UpdateCustomer/{id}
     [HttpPut("{id}")]
-    public async Task<ApiResponse<string>> UpdateCustomer(string id, [FromBody] UpdateCustomerDto customerDto) =>
+    public async Task<ApiResponse<int>> UpdateCustomer(int id, [FromBody] UpdateCustomerDto customerDto) =>
         await _mediator.Send(new UpdateCustomerCommand(id, customerDto));
 
     // DELETE: api/Customers/DeleteCustomer/{id}
     [HttpDelete("{id}")]
-    public async Task<ApiResponse<string>> DeleteCustomer(string id) =>
+    public async Task<ApiResponse<int>> DeleteCustomer(int id) =>
         await _mediator.Send(new DeleteCustomerCommand(id));
 
 }

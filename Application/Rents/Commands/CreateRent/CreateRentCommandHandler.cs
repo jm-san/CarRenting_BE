@@ -8,18 +8,18 @@ using MediatR;
 
 namespace Application.Rents.Commands.CreateRent;
 
-public class CreateRentCommandHandler : IRequestHandler<CreateRentCommand, ApiResponse<string>>
+public class CreateRentCommandHandler : IRequestHandler<CreateRentCommand, ApiResponse<int>>
 {
-    private readonly IRepository<Rent, RentFilter> _rentRepository;
+    private readonly IRentRepository _rentRepository;
     private readonly IMapper _mapper;
 
-    public CreateRentCommandHandler(IRepository<Rent, RentFilter> rentRepository, IMapper mapper)
+    public CreateRentCommandHandler(IRentRepository rentRepository, IMapper mapper)
     {
         _rentRepository = rentRepository;
         _mapper = mapper;
     }
 
-    public async Task<ApiResponse<string>> Handle(CreateRentCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<int>> Handle(CreateRentCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -35,15 +35,15 @@ public class CreateRentCommandHandler : IRequestHandler<CreateRentCommand, ApiRe
 
             if (activeRents.Count > 0)
             {
-                return new ApiResponse<string>(ETypeApiResponse.CUSTOMER_WITH_ACTIVE_RENT, "El cliente ya tiene un alquiler activo");
+                return new ApiResponse<int>(ETypeApiResponse.CUSTOMER_WITH_ACTIVE_RENT, "El cliente ya tiene un alquiler activo");
             }
 
             await _rentRepository.InsertAsync(rent);
-            return new ApiResponse<string>(ETypeApiResponse.OK, rent.Id);
+            return new ApiResponse<int>(ETypeApiResponse.OK, rent.Id);
         }
         catch (Exception ex)
         {
-            return new ApiResponse<string>(ETypeApiResponse.INTERNAL_ERROR, ex.Message);
+            return new ApiResponse<int>(ETypeApiResponse.INTERNAL_ERROR, ex.Message);
         }
     }
 }

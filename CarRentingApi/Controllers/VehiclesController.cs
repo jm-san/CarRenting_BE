@@ -29,22 +29,22 @@ public class VehiclesController : ControllerBase
 
     // GET: api/Vehicles/GetVehicle/{id}
     [HttpGet("{id}")]
-    public async Task<ApiResponse<VehicleDto>> GetVehicle(string id) =>
+    public async Task<ApiResponse<VehicleDto>> GetVehicle(int id) =>
         await _mediator.Send(new GetVehicleQuery(id));
 
     // POST: api/Vehicles/CreateVehicle
     [HttpPost]
-    public async Task<ApiResponse<string>> CreateVehicle([FromBody] CreateVehicleDto vehicleDto) =>
+    public async Task<ApiResponse<int>> CreateVehicle([FromBody] CreateVehicleDto vehicleDto) =>
         await _mediator.Send(new CreateVehicleCommand(vehicleDto));
 
     // PUT: api/Vehicles/UpdateVehicle/{id}
     [HttpPut("{id}")]
-    public async Task<ApiResponse<string>> UpdateVehicle(string id, [FromBody] UpdateVehicleDto vehicleDto) =>
+    public async Task<ApiResponse<int>> UpdateVehicle(int id, [FromBody] UpdateVehicleDto vehicleDto) =>
         await _mediator.Send(new UpdateVehicleCommand(id, vehicleDto));
 
     // DELETE: api/Vehicles/DeleteVehicle/{id}
     [HttpDelete("{id}")]
-    public async Task<ApiResponse<string>> DeleteVehicle(string id) =>
+    public async Task<ApiResponse<int>> DeleteVehicle(int id) =>
         await _mediator.Send(new DeleteVehicleCommand(id));
 
 }

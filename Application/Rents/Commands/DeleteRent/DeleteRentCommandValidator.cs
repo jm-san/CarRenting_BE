@@ -7,6 +7,6 @@ public class DeleteRentCommandValidator : AbstractValidator<DeleteRentCommand>
     public DeleteRentCommandValidator()
     {
         RuleFor(x => x.Id)
-            .NotEmpty().WithMessage("Obligatorio indicar el Id del alquiler");
+            .GreaterThan(0).WithMessage("Obligatorio indicar el Id del alquiler");
     }
 }

@@ -4,4 +4,4 @@ using MediatR;
 
 namespace Application.Vehicles.Queries.GetVehicle;
 
-public record GetVehicleQuery(string Id) : IRequest<ApiResponse<VehicleDto>>;
+public record GetVehicleQuery(int Id) : IRequest<ApiResponse<VehicleDto>>;

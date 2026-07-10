@@ -3,4 +3,4 @@ using MediatR;
 
 namespace Application.Vehicles.Commands.DeleteVehicle;
 
-public record DeleteVehicleCommand(string Id) : IRequest<ApiResponse<string>>;
+public record DeleteVehicleCommand(int Id) : IRequest<ApiResponse<int>>;

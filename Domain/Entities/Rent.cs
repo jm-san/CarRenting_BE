@@ -1,20 +1,13 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-
 namespace Domain.Entities;
 
 public class Rent
 {
-    [BsonId]
-    [BsonRepresentation(BsonType.ObjectId)]
-    public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
+    public int Id { get; set; }
 
-    [BsonRepresentation(BsonType.ObjectId)]
-    public string CustomerId { get; set; }
+    public int CustomerId { get; set; }
     public Customer Customer { get; set; }
 
-    [BsonRepresentation(BsonType.ObjectId)]
-    public string VehicleId { get; set; }
+    public int VehicleId { get; set; }
     public Vehicle Vehicle { get; set; }
 
     public DateTime RentStartDate { get; set; }

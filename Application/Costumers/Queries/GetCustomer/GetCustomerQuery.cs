@@ -4,4 +4,4 @@ using MediatR;
 
 namespace Application.Costumers.Queries.GetCustomer;
 
-public record GetCustomerQuery(string Id) : IRequest<ApiResponse<CustomerDto>>;
+public record GetCustomerQuery(int Id) : IRequest<ApiResponse<CustomerDto>>;

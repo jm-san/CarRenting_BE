@@ -1,8 +1,9 @@
-﻿using Application.Vehicles.Dtos;
+using Application.Vehicles.Dtos;
 using Domain.Entities;
+using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using MongoDB.Driver;
 using Newtonsoft.Json;
 using System.Net;
 using System.Text;
@@ -12,24 +13,24 @@ namespace CarRenting_Tests.InfrastructureTests;
 public class VehicleIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly HttpClient _client;
-    private readonly IMongoCollection<Vehicle> _vehicleCollection;
+    private readonly IServiceScope _scope;
+    private readonly CarRentingDbContext _dbContext;
 
     public VehicleIntegrationTests(WebApplicationFactory<Program> factory)
     {
         _client = factory.CreateClient();
-        var scope = factory.Services.CreateScope();
-        var mongoClient = scope.ServiceProvider.GetRequiredService<IMongoClient>();
-        var database = mongoClient.GetDatabase("TestDatabase");
-        _vehicleCollection = database.GetCollection<Vehicle>("Vehicles");
+        _scope = factory.Services.CreateScope();
+        _dbContext = _scope.ServiceProvider.GetRequiredService<CarRentingDbContext>();
     }
 
     [Fact]
     public async Task UpdateVehicle_ShouldModifyDatabase()
     {
-        var vehicle = new Vehicle { Id = "123", Brand = "Ford", Model = "Focus" };
-        await _vehicleCollection.InsertOneAsync(vehicle);
+        var vehicle = new Vehicle { Brand = "Ford", Model = "Focus" };
+        _dbContext.Vehicles.Add(vehicle);
+        await _dbContext.SaveChangesAsync();
 
-        var request = new HttpRequestMessage(HttpMethod.Put, "/api/vehicles/123");
+        var request = new HttpRequestMessage(HttpMethod.Put, $"/api/vehicles/{vehicle.Id}");
         request.Content = new StringContent(JsonConvert.SerializeObject(new UpdateVehicleDto
         {
             Brand = "Chevrolet"
@@ -37,7 +38,7 @@ public class VehicleIntegrationTests : IClassFixture<WebApplicationFactory<Progr
 
         var response = await _client.SendAsync(request);
 
-        var updatedVehicle = await _vehicleCollection.Find(v => v.Id == "123").FirstOrDefaultAsync();
+        var updatedVehicle = await _dbContext.Vehicles.AsNoTracking().FirstOrDefaultAsync(v => v.Id == vehicle.Id);
 
         Assert.NotNull(updatedVehicle);
         Assert.Equal("Chevrolet", updatedVehicle.Brand);

@@ -2,8 +2,6 @@ using Application.Common.Enums;
 using Application.Common.Models;
 using Application.Rents.Dtos;
 using AutoMapper;
-using Domain.Entities;
-using Domain.Filters;
 using Infrastructure.Interfaces;
 using MediatR;
 
@@ -11,10 +9,10 @@ namespace Application.Rents.Queries.GetRents;
 
 public class GetRentsQueryHandler : IRequestHandler<GetRentsQuery, ApiResponse<List<RentDto>>>
 {
-    private readonly IRepository<Rent, RentFilter> _rentRepository;
+    private readonly IRentRepository _rentRepository;
     private readonly IMapper _mapper;
 
-    public GetRentsQueryHandler(IRepository<Rent, RentFilter> rentRepository, IMapper mapper)
+    public GetRentsQueryHandler(IRentRepository rentRepository, IMapper mapper)
     {
         _rentRepository = rentRepository;
         _mapper = mapper;

@@ -29,22 +29,22 @@ public class RentsController : ControllerBase
 
     // GET: api/Rents/GetRent/{id}
     [HttpGet("{id}")]
-    public async Task<ApiResponse<RentDto>> GetRent(string id) =>
+    public async Task<ApiResponse<RentDto>> GetRent(int id) =>
         await _mediator.Send(new GetRentQuery(id));
 
     // POST: api/Rents/CreateRent
     [HttpPost]
-    public async Task<ApiResponse<string>> CreateRent([FromBody] CreateRentDto rentDto) =>
+    public async Task<ApiResponse<int>> CreateRent([FromBody] CreateRentDto rentDto) =>
         await _mediator.Send(new CreateRentCommand(rentDto));
 
     // PUT: api/Rents/UpdateRentActivity/{id}
     [HttpPut("{id}")]
-    public async Task<ApiResponse<string>> UpdateRentActivity(string id, [FromBody] bool isActive) =>
+    public async Task<ApiResponse<int>> UpdateRentActivity(int id, [FromBody] bool isActive) =>
         await _mediator.Send(new UpdateRentActivityCommand(id, isActive));
 
     // DELETE: api/Rents/DeleteRent/{id}
     [HttpDelete("{id}")]
-    public async Task<ApiResponse<string>> DeleteRent(string id) =>
+    public async Task<ApiResponse<int>> DeleteRent(int id) =>
         await _mediator.Send(new DeleteRentCommand(id));
 
 }
